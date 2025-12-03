@@ -74,31 +74,31 @@
             <li>Purpose: Scan for presence and severity of depression</li>
         </ul>
         </p>
-        <a href="./assessmentpages/phq9.jsp">Take</a>
+        <a href="phq9.jsp">Take</a>
     </div>
-    <div class="box">
-        <h3>Depression, Anxiety & Stress Scale</h3>
-        <p>
-            Details:
-        <ul>
-            <li>Number of Questions: 21</li>
-            <li>Purpose: Measure current mental health and emotional status, identifying Depression, Anxiety and
-                Stress
-            </li>
-        </ul>
-        </p>
-        <a href="#">Take</a>
-    </div>
-    <div class="box">
-        <h3>Copenhagen Burnout Inventory (CBI)</h3>
-        <p>
-            Details:
-        <ul>
-            <li>Number of questions: 13</li>
-            <li>Purpose: Identify magnitude of Personal Burnout and Work-related Burnout</li>
-        </ul>
-        </p>
-        <a href="#">Take</a>
-    </div>
+<%--    <div class="box">--%>
+<%--        <h3>Depression, Anxiety & Stress Scale</h3>--%>
+<%--        <p>--%>
+<%--            Details:--%>
+<%--        <ul>--%>
+<%--            <li>Number of Questions: 21</li>--%>
+<%--            <li>Purpose: Measure current mental health and emotional status, identifying Depression, Anxiety and--%>
+<%--                Stress--%>
+<%--            </li>--%>
+<%--        </ul>--%>
+<%--        </p>--%>
+<%--        <a href="#">Take</a>--%>
+<%--    </div>--%>
+<%--    <div class="box">--%>
+<%--        <h3>Copenhagen Burnout Inventory (CBI)</h3>--%>
+<%--        <p>--%>
+<%--            Details:--%>
+<%--        <ul>--%>
+<%--            <li>Number of questions: 13</li>--%>
+<%--            <li>Purpose: Identify magnitude of Personal Burnout and Work-related Burnout</li>--%>
+<%--        </ul>--%>
+<%--        </p>--%>
+<%--        <a href="#">Take</a>--%>
+<%--    </div>--%>
 </body>
 </html>
