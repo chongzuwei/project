@@ -21,9 +21,22 @@
     <h2>Dashboard</h2>
 
     <div class="dashboard-stats">
-
+        <div class="box">
+            <p>Content Metrics</p>
+            <p>Resources uploaded this week: 12</p>
+            <p>Posts made this week: 25</p>
+            <p>Total lessons completed: 30</p>
+        </div>
+        <div class="box">
+            <p>Users Engagement</p>
+            <p>New users this week: 40</p>
+            <p>Average active users this week: 35</p>
+            <p>Average time online: 20 minutes</p>
+        </div>
+        <a href="dashboardpage.jsp"><button style="border: none; border-radius: 5px; background-color: #1a75ff; color: white">
+            See detailed stats
+        </button></a>
     </div>
 </div>
-
 </body>
 </html>
