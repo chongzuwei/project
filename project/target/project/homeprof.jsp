@@ -61,7 +61,11 @@
 <body>
 
     <!-- NAVIGATION BAR -->
-<%--    <%@include file="header.jsp"%>--%>
+    <div class="navbar">
+        <a href="homeprof.jsp" style="font-weight:bold;">Home</a>
+        <a href="resourceprof.jsp">Resource</a>
+        <a href="profileprof.jsp">Profile</a>
+    </div>
 
     <!-- MAIN CONTENT -->
     <div class="content">

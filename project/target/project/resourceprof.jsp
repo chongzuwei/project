@@ -98,8 +98,8 @@
 
     <!-- Navigation Bar -->
     <div class="navbar">
-        <a href="homeprof.jsp">Home</a>
-        <a href="uploadForm.jsp" class="active">Resources</a>
+         <a href="homeprof.jsp" >Home</a>
+        <a href="resourceprof.jsp" style="font-weight:bold;">Resource</a>
         <a href="profileprof.jsp">Profile</a>
     </div>
 

@@ -80,9 +80,9 @@
 <body>
 
 <div class="navbar">
-     <a href="homeprof.jsp">Home</a>
-        <a href="resourceprof.jsp" >Resource</a>
-        <a href="profileprof.jsp" style="font-weight:bold;">Profile</a>
+    <a href="homeprof.jsp" >Home</a>
+    <a href="resourceprof.jsp" >Resource</a>
+    <a href="profileprof.jsp" style="font-weight:bold;">Profile</a>
 </div>
 
 <div class="info-box">
