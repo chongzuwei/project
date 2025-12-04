@@ -61,6 +61,7 @@
         <a href="resourcestudent.jsp"style="font-weight:bold;">Resource</a>
         <a href="selfAssessment.jsp">Self-Assessment</a>
         <a href="activity.jsp">Activity Community</a>
+        <a href="communitySharing.jsp">Community Sharing</a>
         <a href="profilestudent.jsp">Profile</a>
 </div><br
 <div class="search-container">

@@ -161,32 +161,32 @@
           <!-- Desktop Navigation -->
           <div class="hidden md:flex items-center space-x-8">
             <a
-              href="#home"
+              href="homestudent.jsp"
               class="text-navbar-text hover:text-gray-700 transition-colors duration-200 ease-in text-sm font-normal"
               >Home</a
             >
             <a
-              href="#resources"
+              href="resourcestudent.jsp"
               class="text-navbar-text hover:text-gray-700 transition-colors duration-200 ease-in text-sm font-normal"
               >Resources</a
             >
             <a
-              href="#self-assessment"
+              href="selfAssessment.jsp"
               class="text-navbar-text hover:text-gray-700 transition-colors duration-200 ease-in text-sm font-normal"
               >Self-Assessment</a
             >
             <a
-              href="#activity-log"
+              href="activity.jsp"
               class="text-navbar-text border-b-2 border-cta-primary font-medium text-sm"
               >Activity Log</a
             >
             <a
-              href="#community"
+              href="communitySharing.jsp"
               class="text-navbar-text hover:text-gray-700 transition-colors duration-200 ease-in text-sm font-normal"
               >Community</a
             >
             <a
-              href="#profile"
+              href="profilestudent.jsp"
               class="text-navbar-text hover:text-gray-700 transition-colors duration-200 ease-in text-sm font-normal"
               >Profile</a
             >
