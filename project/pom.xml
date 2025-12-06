@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.secj3303</groupId>
-    <artifactId>springhealthhub</artifactId>
+    <artifactId>project</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
@@ -113,7 +113,7 @@
     </dependencies>
 
     <build>
-        <finalName>springhealthhub</finalName>
+        <finalName>project</finalName>
 
         <plugins>
             <!-- Java Compiler Plugin -->
