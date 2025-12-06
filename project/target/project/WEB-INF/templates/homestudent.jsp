@@ -61,14 +61,7 @@
 <body>
 
     <!-- NAVIGATION BAR -->
-    <div class="navbar">
-        <a href="homestudent.jsp" style="font-weight:bold;">Home</a>
-        <a href="resourcestudent.jsp">Resource</a>
-        <a href="selfAssessment.jsp">Self-Assessment</a>
-        <a href="activity.jsp">Activity Community</a>
-        <a href="communitySharing.jsp">Community Sharing</a>
-        <a href="profilestudent.jsp">Profile</a>
-    </div>
+    <jsp:include page="navstudent.jsp" />
 
     <!-- MAIN CONTENT -->
     <div class="content">

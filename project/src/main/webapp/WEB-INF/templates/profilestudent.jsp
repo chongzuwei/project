@@ -79,13 +79,7 @@
 </head>
 <body>
 
-<div class="navbar">
-     <a href="homestudent.jsp">Home</a>
-        <a href="resourcestudent.jsp" >Resource</a>
-        <a href="selfAssessment.jsp">Self-Assessment</a>
-        <a href="activity.jsp">Activity Community</a>
-        <a href="profilestudent.jsp" style="font-weight:bold;">Profile</a>
-</div>
+<jsp:include page="navstudent.jsp" />
 
 <div class="info-box">
     <p>Email: ali@gmail.com<br>Name: Ali</p>

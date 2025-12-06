@@ -54,16 +54,7 @@
     </style>
 </head>
 <body>
-
-<div class="navbar">
-   
-        <a href="homestudent.jsp">Home</a>
-        <a href="resourcestudent.jsp"style="font-weight:bold;">Resource</a>
-        <a href="selfAssessment.jsp">Self-Assessment</a>
-        <a href="activity.jsp">Activity Community</a>
-        <a href="communitySharing.jsp">Community Sharing</a>
-        <a href="profilestudent.jsp">Profile</a>
-</div><br
+<jsp:include page="navstudent.jsp" />  
 <div class="search-container">
         <input type="text" placeholder="Search...">
     </div><br>

@@ -10,10 +10,7 @@
 <body>
 
 <!-- NAVIGATION BAR -->
-<div class="navbar">
-    <a href="homeadmin.jsp">Dashboard</a>
-    <a href="profileadmin.jsp">Profile</a>
-</div>
+<jsp:include page="navadmin.jsp" />
 
 <!-- MAIN CONTENT -->
 <div class="content">

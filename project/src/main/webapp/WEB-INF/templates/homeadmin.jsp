@@ -6,14 +6,42 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #d9f0f8;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            width: 100%;
+            padding: 15px 40px;
+            background: white;
+            font-size: 18px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .navbar a {
+            margin-right: 25px;
+            color: black;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .navbar a:hover {
+            color: #1a75ff;
+        }
+
+        .content {
+            padding: 40px;
+        }
+    </style>
 </head>
 <body>
 
 <!-- NAVIGATION BAR -->
-<div class="navbar">
-    <a href="homeadmin.jsp">Dashboard</a>
-    <a href="profileadmin.jsp">Profile</a>
-</div>
+<jsp:include page="navadmin.jsp" />
 
 <!-- MAIN CONTENT -->
 <div class="content">

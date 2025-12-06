@@ -453,14 +453,7 @@
   <body>
     <!-- Header Navigation -->
     <header>
-      <nav role="navigation" aria-label="Main navigation">
-        <a href="homestudent.jsp" style="font-weight:bold;">Home</a>
-        <a href="resourcestudent.jsp">Resource</a>
-        <a href="selfAssessment.jsp">Self-Assessment</a>
-        <a href="activity.jsp">Activity Community</a>
-        <a href="communitySharing.jsp">Community Sharing</a>
-        <a href="profilestudent.jsp">Profile</a>
-      </nav>
+     <jsp:include page="navstudent.jsp" />
     </header>
 
     <!-- Hero Section -->

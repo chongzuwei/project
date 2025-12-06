@@ -61,12 +61,7 @@
 <body>
 
     <!-- NAVIGATION BAR -->
-    <div class="navbar">
-        <a href="homeprof.jsp" style="font-weight:bold;">Home</a>
-        <a href="resourceprof.jsp">Resource</a>
-        <a href="profileprof.jsp">Profile</a>
-    </div>
-
+    <jsp:include page="navprof.jsp" />
     <!-- MAIN CONTENT -->
     <div class="content">
         <img src="images/mental_health.png" class="main-image" alt="Mental Health">
