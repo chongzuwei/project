@@ -207,5 +207,14 @@
             <a href="<%= request.getContextPath() %>/auth/register">Create your account</a>
         </div>
     </div>
+
+    <% 
+        String successMessage = (String) request.getAttribute("success");
+        if (successMessage != null) { 
+    %>
+    <script>
+        alert('<%= successMessage %>');
+    </script>
+    <% } %>
 </body>
 </html>

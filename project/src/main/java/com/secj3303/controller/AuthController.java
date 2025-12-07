@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
@@ -64,7 +65,8 @@ public class AuthController {
             @RequestParam(required = false) String confirmPassword,
             @RequestParam(required = false) MultipartFile verificationDocument,
             HttpSession session,
-            Model model) {
+            Model model,
+            RedirectAttributes redirectAttributes) {
 
         // Validate input
         if (email == null || email.trim().isEmpty() || 
@@ -138,7 +140,13 @@ public class AuthController {
             // TODO: Save user to database
             // userService.saveUser(user);
 
-            model.addAttribute("success", "Registration successful! Please log in.");
+            // Different success messages based on role
+            if (userRole == UserRole.STUDENT) {
+                redirectAttributes.addFlashAttribute("success", "Registration successful! Please log in.");
+            } else if (userRole == UserRole.PROFESSIONAL) {
+                redirectAttributes.addFlashAttribute("success", "Registration submitted successfully! Please wait for admin approval before logging in.");
+            }
+            
             return "redirect:/auth/login";
 
         } catch (Exception e) {
