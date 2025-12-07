@@ -70,7 +70,24 @@
         <h2>Registration Page</h2>
         <h3 style="text-align:center;">Welcome!</h3>
 
-        <form action="register" method="post">
+        <%
+            String error = (String) request.getAttribute("error");
+            String success = (String) request.getAttribute("success");
+        %>
+        
+        <% if (error != null && !error.isEmpty()) { %>
+            <div style="color: red; padding: 10px; margin-bottom: 15px; background: #ffe0e0; border-radius: 5px;">
+                <%= error %>
+            </div>
+        <% } %>
+        
+        <% if (success != null && !success.isEmpty()) { %>
+            <div style="color: green; padding: 10px; margin-bottom: 15px; background: #e0ffe0; border-radius: 5px;">
+                <%= success %>
+            </div>
+        <% } %>
+
+        <form action="<%= request.getContextPath() %>/auth/register" method="post">
 
             <input type="email" 
                    name="email" 
@@ -78,8 +95,13 @@
                    class="input-field" required>
 
             <input type="text" 
-                   name="name" 
-                   placeholder="Name" 
+                   name="firstName" 
+                   placeholder="First Name" 
+                   class="input-field" required>
+
+            <input type="text" 
+                   name="lastName" 
+                   placeholder="Last Name" 
                    class="input-field" required>
 
             <input type="password" 
@@ -95,11 +117,14 @@
             <div class="role-box">
                 <strong>Select Your Role</strong><br><br>
 
-                <input type="radio" id="student" name="role" value="student" checked>
-                <label for="student">Student</label><br><br>
+                <input type="radio" id="student" name="role" value="STUDENT" checked>
+                <label for="student">👨‍🎓 Student</label><br><br>
 
-                <input type="radio" id="professional" name="role" value="professional">
-                <label for="professional">Mental Health Professional</label>
+                <input type="radio" id="professional" name="role" value="PROFESSIONAL">
+                <label for="professional">👨‍⚕️ Professional</label><br><br>
+
+                <input type="radio" id="admin" name="role" value="ADMIN">
+                <label for="admin">👨‍💼 Admin</label>
             </div>
 
             <button type="submit" class="btn">Sign up</button>

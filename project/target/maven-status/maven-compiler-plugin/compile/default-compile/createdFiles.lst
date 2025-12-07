@@ -1,1 +1,8 @@
+com\secj3303\model\User.class
+com\secj3303\model\Professional.class
+com\secj3303\model\UserRole.class
+com\secj3303\model\Student.class
+com\secj3303\controller\AuthController$1.class
 com\secj3303\controller\PageController.class
+com\secj3303\model\Admin.class
+com\secj3303\controller\AuthController.class

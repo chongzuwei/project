@@ -1,93 +1,227 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MentalCare | Login</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #fafafa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .container {
-            width: 350px;
-            text-align: center;
+
+        html, body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 40px;
-            font-weight: bold;
-        }
-        h2 {
-            font-size: 22px;
-            margin-bottom: 30px;
-        }
-        .input-box {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: 1px solid #ddd;
+
+        body {
             display: flex;
             align-items: center;
-            background: #fff;
+            justify-content: center;
+            padding: 20px;
         }
-        .input-box input {
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             width: 100%;
-            border: none;
-            outline: none;
-            margin-left: 8px;
+            max-width: 420px;
+            padding: 40px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .brand {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #666;
             font-size: 14px;
         }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .role-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .role-option {
+            position: relative;
+        }
+
+        .role-option input[type="radio"] {
+            display: none;
+        }
+
+        .role-label {
+            display: block;
+            padding: 12px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .role-option input[type="radio"]:checked + .role-label {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+
+        .error-message {
+            color: #d32f2f;
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
         .login-btn {
             width: 100%;
-            padding: 12px;
-            margin-top: 20px;
-            background-color: #000;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
             cursor: pointer;
-            font-size: 16px;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
         }
+
         .login-btn:hover {
-            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
-        .signup-text {
-            margin-top: 15px;
+
+        .divider {
+            text-align: center;
+            color: #999;
             font-size: 13px;
+            margin: 20px 0;
         }
-        .signup-text a {
+
+        .signup-link {
+            text-align: center;
+        }
+
+        .signup-link a {
+            color: #667eea;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .signup-link a:hover {
+            color: #764ba2;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Login Page</h1>
-        <h2>Welcome!</h2>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="brand">🧠 MentalCare</div>
+            <p class="subtitle">Your mental wellness companion</p>
+        </div>
 
-        <form action="loginServlet" method="post">
-            <div class="input-box">
-                <span>&#9993;</span>
-                <input type="email" name="email" placeholder="E-mail" required />
+        <% if (request.getParameter("error") != null) { %>
+            <div class="error-message show"><%= request.getParameter("error") %></div>
+        <% } %>
+
+        <form action="<%= request.getContextPath() %>/auth/login" method="POST">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required>
             </div>
 
-            <div class="input-box">
-                <span>&#128274;</span>
-                <input type="password" name="password" placeholder="Password" required />
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
             </div>
 
-            <button type="submit" class="login-btn">Login</button>
+            <div class="form-group">
+                <label>Login as</label>
+                <div class="role-selector">
+                    <div class="role-option">
+                        <input type="radio" id="student" name="role" value="STUDENT" checked>
+                        <label for="student" class="role-label">👨‍🎓 Student</label>
+                    </div>
+                    <div class="role-option">
+                        <input type="radio" id="professional" name="role" value="PROFESSIONAL">
+                        <label for="professional" class="role-label">👨‍⚕️ Professional</label>
+                    </div>
+                    <div class="role-option">
+                        <input type="radio" id="admin" name="role" value="ADMIN">
+                        <label for="admin" class="role-label">👨‍💼 Admin</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="login-btn">Sign In</button>
         </form>
 
-        <div class="signup-text">
-            No account yet? <a href="signup.jsp">Sign up here</a>
+        <div class="divider">Don't have an account?</div>
+
+        <div class="signup-link">
+            <a href="<%= request.getContextPath() %>/auth/register">Create your account</a>
         </div>
     </div>
 </body>

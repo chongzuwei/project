@@ -82,7 +82,19 @@
 <jsp:include page="navprof.jsp" />
 
 <div class="info-box">
-    <p>Email: ali@gmail.com<br>Name: Ali</p>
+    <%
+        String userEmail = (String) session.getAttribute("userEmail");
+        String userName = (String) session.getAttribute("userName");
+        String bio = null;
+        com.secj3303.model.User profileUser = (com.secj3303.model.User) session.getAttribute("user");
+        if (profileUser != null) {
+            bio = profileUser.getBiography();
+        }
+        if (userEmail == null) userEmail = "Not available";
+        if (userName == null) userName = "Not available";
+    %>
+    <p>Email: <%= userEmail %><br>Name: <%= userName %></p>
+    <p>Bio: <%= (bio != null && !bio.isEmpty()) ? bio : "Not available" %></p>
 </div>
 
 <div class="stats-box">
@@ -96,8 +108,8 @@
     </div>
 </div>
 
-<button class="btn">edit user's profile</button>
-<button class="btn">log out</button>
+<a class="btn" style="text-align:center; text-decoration:none; line-height:20px;" href="<%= request.getContextPath() %>/edituser">edit user's profile</a>
+<a class="btn" style="text-align:center; text-decoration:none; line-height:20px;" href="<%= request.getContextPath() %>/auth/logout">log out</a>
 
 </body>
 </html>
