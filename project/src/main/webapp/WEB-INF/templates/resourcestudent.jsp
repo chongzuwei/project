@@ -11,79 +11,97 @@
             margin: 0;
             padding: 0;
         }
-        .navbar{
-            width: 100%;
-            padding: 15px 30px;
-            background-color: white;
+        .content {
+            padding: 80px 40px 40px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .action-buttons {
             display: flex;
-            align-items: center;
-            gap: 25px;
-            font-size: 18px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            gap: 15px;
+            margin-bottom: 30px;
         }
-        .navbar a{
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
             text-decoration: none;
-            color: black;
+            display: inline-block;
         }
-        .search-container{
-            margin-left: auto;
+        .btn-primary {
+            background-color: #1a75ff;
+            color: white;
         }
-        .search-container input{
-            width: 250px;
-            padding: 8px 12px;
-            border-radius: 20px;
-            border: 1px solid #ccc;
+        .btn-primary:hover {
+            background-color: #0056b3;
         }
-        .grid{
+        .info-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .info-card h2 {
+            color: #1a75ff;
+            margin-bottom: 15px;
+        }
+        .info-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .category-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-            padding: 40px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
         }
-        .card{
-            background-color: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            font-size: 14px;
-        }
-        .card h3{
-            margin-top: 0;
-            font-size: 18px;
+        .category-item {
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-radius: 5px;
+            color: #333;
         }
     </style>
 </head>
 <body>
-<jsp:include page="navstudent.jsp" />  
-<div class="search-container">
-        <input type="text" placeholder="Search...">
-    </div><br>
-<div class="grid">
-    <div class="card">
-        <h3>Mental Health Resources</h3>
-        <p>Find mental health resources made specifically to benefit individuals with specific challenges and requirements.</p>
+<jsp:include page="navstudent.jsp" />
+
+<div class="content">
+    <h1>Mental Health Resources</h1>
+    
+    <div class="action-buttons">
+        <a href="<%= request.getContextPath() %>/resource/browse" class="btn btn-primary">🔍 Browse All Resources</a>
     </div>
 
-    <div class="card">
-        <h3>Mental Health: Strengthening Our Response</h3>
-        <p>Includes strategies for mental health improvement, counseling, and strengthening health services.</p>
+    <div class="info-card">
+        <h2>📚 Access Mental Health Resources</h2>
+        <p>
+            Browse our collection of mental health resources curated by professionals.<br>
+            Find articles, guides, and materials covering topics like anxiety, depression, stress management, mindfulness, and more.
+        </p>
+        <p>
+            Use the search feature to find resources by keywords or filter by category to discover content tailored to your needs.
+        </p>
     </div>
 
-    <div class="card">
-        <h3>Mental Health</h3>
-        <p>Access information on mental health, symptoms, prevention, and treatment strategies.</p>
+    <div class="info-card">
+        <h2>🎯 Categories Available</h2>
+        <div class="category-grid">
+            <div class="category-item">📘 Anxiety</div>
+            <div class="category-item">📙 Depression</div>
+            <div class="category-item">📗 Stress Management</div>
+            <div class="category-item">📕 Self-Care</div>
+            <div class="category-item">📔 Mindfulness</div>
+            <div class="category-item">📓 Counseling</div>
+            <div class="category-item">📒 Crisis Support</div>
+            <div class="category-item">📖 Academic Support</div>
+        </div>
     </div>
-
-    <div class="card">
-        <h3>Caring for Your Mental Health</h3>
-        <p>Learn simple practices that can improve your daily mental well-being.</p>
-    </div>
-
-    <div class="card">
-        <h3>Mental Health at Work</h3>
-        <p>Tips for maintaining mental well-being in the workplace through communication and balance.</p>
-    </div>
-
-    <div class="card">
-        <h3>The National Strategic Plan for Mental Health 2020–2025</h3>
-        <p>Discover the strategy focused on improving nationwide mental health support systems
+</div>
