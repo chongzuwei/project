@@ -104,7 +104,11 @@
     </div>
     <div class="stat">
         <p>resource<br>created</p>
-        <div class="stat-value">6</div>
+        <%
+            Long resourceCount = (Long) request.getAttribute("resourceCount");
+            if (resourceCount == null) resourceCount = 0L;
+        %>
+        <div class="stat-value"><%= resourceCount %></div>
     </div>
 </div>
 

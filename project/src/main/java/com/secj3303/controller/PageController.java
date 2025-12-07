@@ -1,7 +1,11 @@
 package com.secj3303.controller;
 
+import com.secj3303.model.Resource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class PageController {
@@ -74,7 +78,14 @@ public class PageController {
     }
 
     @RequestMapping("/profileprof")
-    public String profileProf() {
+    public String profileProf(HttpSession session, Model model) {
+        String userEmail = (String) session.getAttribute("userEmail");
+        if (userEmail != null) {
+            long resourceCount = ResourceController.getResourceCountByEmail(userEmail);
+            model.addAttribute("resourceCount", resourceCount);
+        } else {
+            model.addAttribute("resourceCount", 0L);
+        }
         return "profileprof";
     }
 

@@ -32,6 +32,16 @@ public class ResourceController {
     private static final String RESOURCE_UPLOAD_DIR = "uploads/resources/";
 
     /**
+     * Get count of resources uploaded by a specific email
+     */
+    public static long getResourceCountByEmail(String email) {
+        if (email == null) return 0;
+        return resourceStore.values().stream()
+                .filter(r -> r != null && email.equalsIgnoreCase(r.getUploadedBy()))
+                .count();
+    }
+
+    /**
      * Show resource upload form for professionals
      */
     @RequestMapping(value = "/upload", method = RequestMethod.GET)
