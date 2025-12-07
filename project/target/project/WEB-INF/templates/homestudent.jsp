@@ -65,7 +65,7 @@
 
     <!-- MAIN CONTENT -->
     <div class="content">
-        <img src="images/mental_health.png" class="main-image" alt="Mental Health">
+      
 
         <div class="box">
             Nowadays, mental health issues among higher education

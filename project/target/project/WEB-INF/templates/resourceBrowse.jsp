@@ -41,6 +41,13 @@
         .btn-primary:hover {
             background-color: #0056b3;
         }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
         .resource-item {
             background: white;
             padding: 15px;
@@ -180,6 +187,17 @@
 <body>
 
 <div class="content">
+    <%
+        UserRole userRole = (UserRole) session.getAttribute("userRole");
+        String backLink = "/index";
+        if (userRole == UserRole.STUDENT) {
+            backLink = "/homestudent";
+        } else if (userRole == UserRole.PROFESSIONAL) {
+            backLink = "/homeprof";
+        }
+    %>
+    <a href="<%= request.getContextPath() %><%= backLink %>" class="btn btn-secondary" style="margin-bottom: 20px;">← Back to Home</a>
+    
     <h1>Browse Mental Health Resources</h1>
     
     <div class="search-bar">
