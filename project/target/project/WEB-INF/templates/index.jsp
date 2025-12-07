@@ -197,23 +197,6 @@
                 <input type="password" id="password" name="password" placeholder="••••••••" required>
             </div>
 
-            <div class="form-group">
-                <label>Login as</label>
-                <div class="role-selector">
-                    <div class="role-option">
-                        <input type="radio" id="student" name="role" value="STUDENT" checked>
-                        <label for="student" class="role-label">👨‍🎓 Student</label>
-                    </div>
-                    <div class="role-option">
-                        <input type="radio" id="professional" name="role" value="PROFESSIONAL">
-                        <label for="professional" class="role-label">👨‍⚕️ Professional</label>
-                    </div>
-                    <div class="role-option">
-                        <input type="radio" id="admin" name="role" value="ADMIN">
-                        <label for="admin" class="role-label">👨‍💼 Admin</label>
-                    </div>
-                </div>
-            </div>
 
             <button type="submit" class="login-btn">Sign In</button>
         </form>

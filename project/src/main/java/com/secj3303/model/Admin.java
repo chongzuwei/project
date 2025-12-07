@@ -1,6 +1,6 @@
 package com.secj3303.model;
 
-/**
+/**email:admin@example.com password:admin123
  * Admin model extending User for admin-specific properties.
  * Admins can manage users, resources, and view system statistics.
  */

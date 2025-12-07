@@ -14,8 +14,20 @@
     <!-- 1. Scan controller package -->
     <context:component-scan base-package="com.secj3303.controller" />
 
-    <!-- 2. Enable Spring MVC annotation support -->
-    <mvc:annotation-driven />
+    <!-- 2. Enable Spring MVC annotation support with multipart file upload (50MB max) -->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- Multipart file upload resolver for handling file uploads (50MB max file, 100MB max request) -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="52428800"/> <!-- 50MB in bytes -->
+        <property name="maxInMemorySize" value="1048576"/> <!-- 1MB in memory -->
+    </bean>
 
     <!-- 3. JSP View Resolver (for .jsp files) -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -36,6 +48,8 @@
     <mvc:resources mapping="/images/**" location="/images/" />
     <mvc:resources mapping="/*.css" location="/WEB-INF/templates/" />
     <mvc:resources mapping="/*.js" location="/WEB-INF/templates/" />
+    <!-- Serve uploaded verification documents -->
+    <mvc:resources mapping="/uploads/**" location="file:uploads/" />
     
     <!-- 6. Enable default servlet for static content -->
     <mvc:default-servlet-handler />

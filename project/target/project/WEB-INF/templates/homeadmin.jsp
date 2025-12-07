@@ -61,7 +61,14 @@
             <p>Average active users this week: 35</p>
             <p>Average time online: 20 minutes</p>
         </div>
-        <a href="dashboardpage.jsp"><button style="border: none; border-radius: 5px; background-color: #1a75ff; color: white">
+        <div style="margin-top: 20px;">
+            <a href="<%= request.getContextPath() %>/auth/verifyProfessionals">
+                <button style="border: none; border-radius: 5px; background-color: #dc3545; color: white; padding: 10px 20px; cursor: pointer; font-size: 16px;">
+                    📋 Verify Professionals
+                </button>
+            </a>
+        </div>
+        <a href="dashboardpage.jsp"><button style="border: none; border-radius: 5px; background-color: #1a75ff; color: white; margin-top: 10px;">
             See detailed stats
         </button></a>
     </div>

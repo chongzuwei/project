@@ -9,6 +9,9 @@ public class Professional extends User {
     private String department;
     private String qualification;
     private String specialization;
+    private String verificationDocument;  // Path to uploaded verification document
+    private String verificationStatus;    // PENDING, APPROVED, REJECTED
+    private String submittedAt;           // Timestamp when document was submitted
 
     public Professional() {
         super();
@@ -55,6 +58,30 @@ public class Professional extends User {
         this.specialization = specialization;
     }
 
+    public String getVerificationDocument() {
+        return verificationDocument;
+    }
+
+    public void setVerificationDocument(String verificationDocument) {
+        this.verificationDocument = verificationDocument;
+    }
+
+    public String getVerificationStatus() {
+        return verificationStatus;
+    }
+
+    public void setVerificationStatus(String verificationStatus) {
+        this.verificationStatus = verificationStatus;
+    }
+
+    public String getSubmittedAt() {
+        return submittedAt;
+    }
+
+    public void setSubmittedAt(String submittedAt) {
+        this.submittedAt = submittedAt;
+    }
+
     @Override
     public String toString() {
         return "Professional{" +
@@ -62,6 +89,7 @@ public class Professional extends User {
                 ", department='" + department + '\'' +
                 ", qualification='" + qualification + '\'' +
                 ", specialization='" + specialization + '\'' +
+                ", verificationStatus='" + verificationStatus + '\'' +
                 "} " + super.toString();
     }
 }

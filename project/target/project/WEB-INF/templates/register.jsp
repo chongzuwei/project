@@ -61,6 +61,23 @@
         .btn:hover {
             background: #333;
         }
+
+        #verificationSection {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #e8f4f8;
+            border: 1px solid #b3d9e6;
+        }
+
+        .file-input-label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
     </style>
 
 </head>
@@ -87,49 +104,90 @@
             </div>
         <% } %>
 
-        <form action="<%= request.getContextPath() %>/auth/register" method="post">
+        <form action="<%= request.getContextPath() %>/auth/register" method="post" enctype="multipart/form-data" id="registerForm">
 
             <input type="email" 
                    name="email" 
                    placeholder="E-mail" 
-                   class="input-field" required>
+                   class="input-field">
 
             <input type="text" 
                    name="firstName" 
                    placeholder="First Name" 
-                   class="input-field" required>
+                   class="input-field">
 
             <input type="text" 
                    name="lastName" 
                    placeholder="Last Name" 
-                   class="input-field" required>
+                   class="input-field">
 
             <input type="password" 
                    name="password" 
                    placeholder="Password" 
-                   class="input-field" required>
+                   class="input-field">
 
             <input type="password" 
                    name="confirmPassword" 
                    placeholder="Confirm password" 
-                   class="input-field" required>
+                   class="input-field">
 
             <div class="role-box">
                 <strong>Select Your Role</strong><br><br>
 
-                <input type="radio" id="student" name="role" value="STUDENT" checked>
+                <input type="radio" id="student" name="role" value="STUDENT" checked onchange="toggleVerification()">
                 <label for="student">👨‍🎓 Student</label><br><br>
 
-                <input type="radio" id="professional" name="role" value="PROFESSIONAL">
-                <label for="professional">👨‍⚕️ Professional</label><br><br>
-
-                <input type="radio" id="admin" name="role" value="ADMIN">
-                <label for="admin">👨‍💼 Admin</label>
+                <input type="radio" id="professional" name="role" value="PROFESSIONAL" onchange="toggleVerification()">
+                <label for="professional">👨‍⚕️ Professional</label>
             </div>
 
-            <button type="submit" class="btn">Sign up</button>
+            <div id="verificationSection" style="display:none;">
+                <label class="file-input-label">📄 Verification Document (Required for Professional):</label>
+                <input type="file" 
+                       name="verificationDocument" 
+                       id="verificationFile"
+                       accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                       class="input-field">
+                <small style="color: #666;">Accepted formats: PDF, DOC, DOCX, JPG, PNG (Max 50MB)</small>
+            </div>
+
+            <button type="submit" class="btn" onclick="return validateForm()">Sign up</button>
 
         </form>
+
+        <script>
+            function toggleVerification() {
+                var professional = document.getElementById('professional').checked;
+                var section = document.getElementById('verificationSection');
+                if (professional) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            }
+
+            function validateForm() {
+                var email = document.querySelector('input[name="email"]').value.trim();
+                var firstName = document.querySelector('input[name="firstName"]').value.trim();
+                var lastName = document.querySelector('input[name="lastName"]').value.trim();
+                var password = document.querySelector('input[name="password"]').value.trim();
+                var confirmPassword = document.querySelector('input[name="confirmPassword"]').value.trim();
+                var role = document.querySelector('input[name="role"]:checked').value;
+                var verificationFile = document.querySelector('input[name="verificationDocument"]').files;
+
+                if (!email || !firstName || !lastName || !password || !confirmPassword) {
+                    alert('All fields are required');
+                    return false;
+                }
+
+                if (role === 'PROFESSIONAL' && verificationFile.length === 0) {
+                    alert('Please upload a verification document for professional registration');
+                    return false;
+                }
+
+                return true;
+            }
+        </script>
 
     </div>
 
