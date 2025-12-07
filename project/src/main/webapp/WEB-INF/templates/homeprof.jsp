@@ -64,8 +64,6 @@
     <jsp:include page="navprof.jsp" />
     <!-- MAIN CONTENT -->
     <div class="content">
-        <img src="images/mental_health.png" class="main-image" alt="Mental Health">
-
         <div class="box">
             Nowadays, mental health issues among higher education
             students have become a growing concern in recent years.
