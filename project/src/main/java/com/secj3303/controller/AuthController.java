@@ -1,6 +1,8 @@
 package com.secj3303.controller;
 
+import com.secj3303.dao.UserDao;
 import com.secj3303.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,21 +26,14 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequestMapping("/auth")
 public class AuthController {
 
-    // Simple in-memory store to retain user changes across logins (non-persistent; replace with DB in production)
-    private static final Map<String, User> userStore = new ConcurrentHashMap<>();
+    @Autowired
+    private UserDao userDao;
     
-    // Store pending professionals for verification
+    // Store pending professionals for verification (in-memory for now)
     private static final Map<String, Professional> pendingProfessionals = new ConcurrentHashMap<>();
     
     // Upload directory for verification documents
     private static final String UPLOAD_DIR = "uploads/verifications/";
-
-    // Static initializer to set up built-in admin account
-    static {
-        Admin builtInAdmin = new Admin("admin@example.com", "admin123", "Administrator", "System");
-        builtInAdmin.setUserId(1);
-        userStore.put("admin@example.com", builtInAdmin);
-    }
 
     /**
      * Show registration page
@@ -63,6 +57,9 @@ public class AuthController {
             @RequestParam(required = false) String lastName,
             @RequestParam(required = false) String role,
             @RequestParam(required = false) String confirmPassword,
+            @RequestParam(required = false) String studentId,
+            @RequestParam(required = false) String major,
+            @RequestParam(required = false) String academicYear,
             @RequestParam(required = false) MultipartFile verificationDocument,
             HttpSession session,
             Model model,
@@ -97,7 +94,19 @@ public class AuthController {
         try {
             switch (userRole) {
                 case STUDENT:
-                    user = new Student(email, password, firstName, lastName);
+                    // Validate student-specific fields
+                    if (studentId == null || studentId.trim().isEmpty() ||
+                        major == null || major.trim().isEmpty() ||
+                        academicYear == null || academicYear.trim().isEmpty()) {
+                        model.addAttribute("error", "Student ID, Major, and Academic Year are required for student registration");
+                        return "register";
+                    }
+                    
+                    Student student = new Student(email, password, firstName, lastName);
+                    student.setStudentId(studentId.trim());
+                    student.setMajor(major.trim());
+                    student.setAcademicYear(academicYear.trim());
+                    user = student;
                     break;
                 case PROFESSIONAL:
                     // Professionals require verification document
@@ -134,11 +143,11 @@ public class AuthController {
             session.setAttribute("registeredLastName", lastName);
             session.setAttribute("registeredRole", userRole.name());
 
-            // Save to in-memory store for reuse after logout/login
-            userStore.put(normalizeEmail(email), user);
+            // Set creation timestamp
+            user.setCreatedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
-            // TODO: Save user to database
-            // userService.saveUser(user);
+            // Save user to database
+            userDao.save(user);
 
             // Different success messages based on role
             if (userRole == UserRole.STUDENT) {
@@ -182,30 +191,28 @@ public class AuthController {
         }
 
         try {
-            User user;
+            // Find user by email from database
             String normalizedEmail = normalizeEmail(email);
-            User stored = userStore.get(normalizedEmail);
+            User user = userDao.findByEmail(normalizedEmail);
 
-            if (stored != null) {
-                if (!stored.getPassword().equals(password.trim())) {
-                    model.addAttribute("error", "Invalid email or password");
-                    return "index";
-                }
-                
-                // Check if professional is approved
-                if (stored.getRole() == UserRole.PROFESSIONAL) {
-                    Professional prof = (Professional) stored;
-                    if (prof.getVerificationStatus() == null || !prof.getVerificationStatus().equals("APPROVED")) {
-                        model.addAttribute("error", "Your professional account is pending approval. Please wait for admin verification.");
-                        return "index";
-                    }
-                }
-                
-                user = stored;
-            } else {
-                // No stored user: require registration first
+            if (user == null) {
                 model.addAttribute("error", "User not found. Please register first.");
                 return "index";
+            }
+
+            // Verify password
+            if (!user.getPassword().equals(password.trim())) {
+                model.addAttribute("error", "Invalid email or password");
+                return "index";
+            }
+            
+            // Check if professional is approved
+            if (user.getRole() == UserRole.PROFESSIONAL) {
+                Professional prof = (Professional) user;
+                if (prof.getVerificationStatus() == null || !prof.getVerificationStatus().equals("APPROVED")) {
+                    model.addAttribute("error", "Your professional account is pending approval. Please wait for admin verification.");
+                    return "index";
+                }
             }
 
             // Store user in session
@@ -269,13 +276,8 @@ public class AuthController {
             user.setPassword(password.trim());
         }
 
-        // Persist updated user in in-memory store
-        String oldKey = normalizeEmail((String) session.getAttribute("registeredEmail"));
-        String newKey = normalizeEmail(user.getEmail());
-        if (!oldKey.isEmpty() && !oldKey.equals(newKey)) {
-            userStore.remove(oldKey);
-        }
-        userStore.put(newKey, user);
+        // Save updated user to database
+        userDao.save(user);
 
         // Update session attributes
         session.setAttribute("user", user);
@@ -439,9 +441,9 @@ public class AuthController {
             return "redirect:/auth/verifyProfessionals";
         }
 
-        // Update status and move to approved
+        // Update status and save to database
         prof.setVerificationStatus("APPROVED");
-        userStore.put(normalizedEmail, prof);
+        userDao.save(prof);
 
         model.addAttribute("success", "Professional " + email + " has been approved.");
         return "redirect:/auth/verifyProfessionals";

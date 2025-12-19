@@ -1,9 +1,15 @@
 package com.secj3303.model;
 
+import javax.persistence.*;
+
 /**
  * Resource model for mental health resources uploaded by professionals
  */
+@Entity
+@Table(name = "resources")
 public class Resource {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int resourceId;
     private String title;
     private String description;

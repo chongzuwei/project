@@ -1,9 +1,14 @@
 package com.secj3303.model;
 
+import javax.persistence.*;
+
 /**email:admin@example.com password:admin123
  * Admin model extending User for admin-specific properties.
  * Admins can manage users, resources, and view system statistics.
  */
+@Entity
+@Table(name = "admins")
+@PrimaryKeyJoinColumn(name = "user_id")
 public class Admin extends User {
     private String adminId;
     private String department;

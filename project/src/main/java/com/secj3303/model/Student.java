@@ -1,12 +1,21 @@
 package com.secj3303.model;
 
+import javax.persistence.*;
+
 /**
  * Student model extending User for student-specific properties.
  * Students can take assessments and view resources.
  */
+@Entity
+@Table(name = "students")
+@PrimaryKeyJoinColumn(name = "user_id")
 public class Student extends User {
+    @Column(name = "student_id")
     private String studentId;
+    
     private String major;
+    
+    @Column(name = "academic_year")
     private String academicYear;
 
     public Student() {

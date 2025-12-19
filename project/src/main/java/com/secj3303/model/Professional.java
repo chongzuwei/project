@@ -1,9 +1,14 @@
 package com.secj3303.model;
 
+import javax.persistence.*;
+
 /**
  * Professional model extending User for professional-specific properties.
  * Professionals can upload resources and manage students.
  */
+@Entity
+@Table(name = "professionals")
+@PrimaryKeyJoinColumn(name = "user_id")
 public class Professional extends User {
     private String professionalId;
     private String department;

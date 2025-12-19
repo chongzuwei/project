@@ -1,6 +1,8 @@
 package com.secj3303.controller;
 
+import com.secj3303.dao.ResourceDao;
 import com.secj3303.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +15,6 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 /**
  * ResourceController handles mental health resource management
@@ -24,22 +23,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/resource")
 public class ResourceController {
 
-    // In-memory storage for resources
-    private static final Map<Integer, Resource> resourceStore = new ConcurrentHashMap<>();
-    private static final AtomicInteger resourceIdCounter = new AtomicInteger(1);
+    @Autowired
+    private ResourceDao resourceDao;
     
     // Upload directory for resource files
     private static final String RESOURCE_UPLOAD_DIR = "uploads/resources/";
-
-    /**
-     * Get count of resources uploaded by a specific email
-     */
-    public static long getResourceCountByEmail(String email) {
-        if (email == null) return 0;
-        return resourceStore.values().stream()
-                .filter(r -> r != null && email.equalsIgnoreCase(r.getUploadedBy()))
-                .count();
-    }
 
     /**
      * Show resource upload form for professionals
@@ -111,12 +99,11 @@ public class ResourceController {
                 user.getFullName()
             );
 
-            int resourceId = resourceIdCounter.getAndIncrement();
-            resource.setResourceId(resourceId);
             resource.setCreatedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             resource.setUpdatedAt(resource.getCreatedAt());
 
-            resourceStore.put(resourceId, resource);
+            // Save to database
+            resourceDao.save(resource);
 
             model.addAttribute("success", "Resource uploaded successfully!");
             return "redirect:/resourceprof";
@@ -139,10 +126,9 @@ public class ResourceController {
             return "redirect:/index";
         }
 
-        List<Resource> myResources = resourceStore.values().stream()
-            .filter(r -> r.getUploadedBy().equalsIgnoreCase(user.getEmail()))
-            .sorted((r1, r2) -> r2.getResourceId() - r1.getResourceId())
-            .collect(Collectors.toList());
+        // Get resources from database
+        // Get resources from database
+        List<Resource> myResources = resourceDao.findByUploaderEmail(user.getEmail());
 
         model.addAttribute("resources", myResources);
         return "myResources";
@@ -159,7 +145,8 @@ public class ResourceController {
             return "redirect:/index";
         }
 
-        Resource resource = resourceStore.get(id);
+        // Get resource from database
+        Resource resource = resourceDao.findById(id);
         if (resource == null) {
             model.addAttribute("error", "Resource not found");
             return "redirect:/resource/myresources";
@@ -192,7 +179,8 @@ public class ResourceController {
             return "redirect:/index";
         }
 
-        Resource resource = resourceStore.get(id);
+        // Get resource from database
+        Resource resource = resourceDao.findById(id);
         if (resource == null || !resource.getUploadedBy().equalsIgnoreCase(user.getEmail())) {
             model.addAttribute("error", "Resource not found or access denied");
             return "redirect:/resource/myresources";
@@ -230,7 +218,9 @@ public class ResourceController {
             }
 
             resource.setUpdatedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-            resourceStore.put(id, resource);
+            
+            // Save to database
+            resourceDao.save(resource);
 
             model.addAttribute("success", "Resource updated successfully!");
             return "redirect:/resource/myresources";
@@ -253,7 +243,8 @@ public class ResourceController {
             return "redirect:/index";
         }
 
-        Resource resource = resourceStore.remove(id);
+        // Get resource from database
+        Resource resource = resourceDao.findById(id);
         if (resource != null && resource.getUploadedBy().equalsIgnoreCase(user.getEmail())) {
             // Delete file
             try {
@@ -261,6 +252,9 @@ public class ResourceController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            
+            // Delete from database
+            resourceDao.deleteById(id);
             model.addAttribute("success", "Resource deleted successfully");
         }
 
@@ -282,62 +276,26 @@ public class ResourceController {
             return "redirect:/index";
         }
 
-        List<Resource> allResources = new ArrayList<>();
-        
         try {
-            allResources = new ArrayList<>(resourceStore.values());
+            List<Resource> allResources;
             
-            // Remove null entries
-            allResources.removeIf(r -> r == null);
-
-            // Filter by search term
-            if (search != null && !search.trim().isEmpty()) {
-                String searchLower = search.trim().toLowerCase();
-                allResources = allResources.stream()
-                    .filter(r -> {
-                        try {
-                            String title = r.getTitle() != null ? r.getTitle().toLowerCase() : "";
-                            String desc = r.getDescription() != null ? r.getDescription().toLowerCase() : "";
-                            return title.contains(searchLower) || desc.contains(searchLower);
-                        } catch (Exception e) {
-                            return false;
-                        }
-                    })
-                    .collect(Collectors.toList());
+            // Use DAO search method
+            if ((search != null && !search.trim().isEmpty()) || (category != null && !category.trim().isEmpty() && !category.equals("All"))) {
+                allResources = resourceDao.search(search, category);
+            } else {
+                allResources = resourceDao.findAll();
             }
 
-            // Filter by category
-            if (category != null && !category.trim().isEmpty() && !category.equals("All")) {
-                String finalCategory = category.trim();
-                allResources = allResources.stream()
-                    .filter(r -> {
-                        try {
-                            String cat = r.getCategory() != null ? r.getCategory() : "";
-                            return cat.equalsIgnoreCase(finalCategory);
-                        } catch (Exception e) {
-                            return false;
-                        }
-                    })
-                    .collect(Collectors.toList());
-            }
-
-            // Sort by newest first
-            try {
-                allResources.sort((r1, r2) -> r2.getResourceId() - r1.getResourceId());
-            } catch (Exception e) {
-                System.out.println("Sort error: " + e.getMessage());
-            }
+            model.addAttribute("resources", allResources);
+            model.addAttribute("searchTerm", search != null ? search : "");
+            model.addAttribute("selectedCategory", category != null ? category : "");
 
         } catch (Exception e) {
             System.out.println("Browse error: " + e.getMessage());
             e.printStackTrace();
             model.addAttribute("error", "Error loading resources: " + e.getMessage());
+            model.addAttribute("resources", new ArrayList<>());
         }
-        
-        // Always add resources, even if empty
-        model.addAttribute("resources", allResources);
-        model.addAttribute("searchTerm", search != null ? search : "");
-        model.addAttribute("selectedCategory", category != null ? category : "");
 
         return "resourceBrowse";
     }
@@ -352,7 +310,8 @@ public class ResourceController {
             return "redirect:/index";
         }
 
-        Resource resource = resourceStore.get(id);
+        // Get resource from database
+        Resource resource = resourceDao.findById(id);
         if (resource == null) {
             model.addAttribute("error", "Resource not found");
             return "redirect:/resource/browse";

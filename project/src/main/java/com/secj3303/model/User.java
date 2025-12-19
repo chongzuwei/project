@@ -1,17 +1,38 @@
 package com.secj3303.model;
 
+import javax.persistence.*;
+
 /**
  * Base User model representing a user in the system.
  * Contains core authentication and role information.
  */
+@Entity
+@Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private int userId;
+    
+    @Column(unique = true, nullable = false)
     private String email;
+    
     private String password;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private UserRole role;
+    
+    @Column(name = "first_name")
     private String firstName;
+    
+    @Column(name = "last_name")
     private String lastName;
+    
     private String biography;
+    
+    @Column(name = "created_at")
     private String createdAt;
 
     // Constructors

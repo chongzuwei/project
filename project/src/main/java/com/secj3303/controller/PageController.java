@@ -1,14 +1,20 @@
 package com.secj3303.controller;
 
+import com.secj3303.dao.ResourceDao;
 import com.secj3303.model.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class PageController {
+
+    @Autowired
+    private ResourceDao resourceDao;
 
     @RequestMapping("/")
     public String index() {
@@ -81,7 +87,8 @@ public class PageController {
     public String profileProf(HttpSession session, Model model) {
         String userEmail = (String) session.getAttribute("userEmail");
         if (userEmail != null) {
-            long resourceCount = ResourceController.getResourceCountByEmail(userEmail);
+            List<Resource> userResources = resourceDao.findByUploaderEmail(userEmail);
+            long resourceCount = userResources != null ? userResources.size() : 0L;
             model.addAttribute("resourceCount", resourceCount);
         } else {
             model.addAttribute("resourceCount", 0L);

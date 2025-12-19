@@ -12,9 +12,10 @@
             background-color: #f7f7f7;
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
+            align-items: flex-start;
+            min-height: 100vh;
             margin: 0;
+            padding: 20px 0;
         }
 
         .container {
@@ -134,11 +135,37 @@
             <div class="role-box">
                 <strong>Select Your Role</strong><br><br>
 
-                <input type="radio" id="student" name="role" value="STUDENT" checked onchange="toggleVerification()">
+                <input type="radio" id="student" name="role" value="STUDENT" checked onchange="toggleRoleFields()">
                 <label for="student">👨‍🎓 Student</label><br><br>
 
-                <input type="radio" id="professional" name="role" value="PROFESSIONAL" onchange="toggleVerification()">
+                <input type="radio" id="professional" name="role" value="PROFESSIONAL" onchange="toggleRoleFields()">
                 <label for="professional">👨‍⚕️ Professional</label>
+            </div>
+
+            <!-- Student-specific fields -->
+            <div id="studentSection" style="display:block; margin-top: 15px; padding: 15px; border-radius: 10px; background: #f0f8ff; border: 1px solid #b3d9ff;">
+                <label class="file-input-label">Student Information:</label>
+                
+                <input type="text" 
+                       name="studentId" 
+                       id="studentId"
+                       placeholder="Student ID (e.g., S12345)"
+                       class="input-field">
+                
+                <input type="text" 
+                       name="major" 
+                       id="major"
+                       placeholder="Major (e.g., Computer Science)"
+                       class="input-field">
+                
+                <select name="academicYear" id="academicYear" class="input-field">
+                    <option value="">Select Academic Year</option>
+                    <option value="Year 1">Year 1</option>
+                    <option value="Year 2">Year 2</option>
+                    <option value="Year 3">Year 3</option>
+                    <option value="Year 4">Year 4</option>
+                    <option value="Graduate">Graduate</option>
+                </select>
             </div>
 
             <div id="verificationSection" style="display:none;">
@@ -156,13 +183,18 @@
         </form>
 
         <script>
-            function toggleVerification() {
-                var professional = document.getElementById('professional').checked;
-                var section = document.getElementById('verificationSection');
-                if (professional) {
-                    section.style.display = 'block';
-                } else {
-                    section.style.display = 'none';
+            function toggleRoleFields() {
+                var isStudent = document.getElementById('student').checked;
+                var isProfessional = document.getElementById('professional').checked;
+                var studentSection = document.getElementById('studentSection');
+                var verificationSection = document.getElementById('verificationSection');
+                
+                if (isStudent) {
+                    studentSection.style.display = 'block';
+                    verificationSection.style.display = 'none';
+                } else if (isProfessional) {
+                    studentSection.style.display = 'none';
+                    verificationSection.style.display = 'block';
                 }
             }
 
@@ -173,16 +205,29 @@
                 var password = document.querySelector('input[name="password"]').value.trim();
                 var confirmPassword = document.querySelector('input[name="confirmPassword"]').value.trim();
                 var role = document.querySelector('input[name="role"]:checked').value;
-                var verificationFile = document.querySelector('input[name="verificationDocument"]').files;
 
                 if (!email || !firstName || !lastName || !password || !confirmPassword) {
                     alert('All fields are required');
                     return false;
                 }
 
-                if (role === 'PROFESSIONAL' && verificationFile.length === 0) {
-                    alert('Please upload a verification document for professional registration');
-                    return false;
+                if (role === 'STUDENT') {
+                    var studentId = document.querySelector('input[name="studentId"]').value.trim();
+                    var major = document.querySelector('input[name="major"]').value.trim();
+                    var academicYear = document.querySelector('select[name="academicYear"]').value;
+                    
+                    if (!studentId || !major || !academicYear) {
+                        alert('Please fill in all student information fields');
+                        return false;
+                    }
+                }
+
+                if (role === 'PROFESSIONAL') {
+                    var verificationFile = document.querySelector('input[name="verificationDocument"]').files;
+                    if (verificationFile.length === 0) {
+                        alert('Please upload a verification document for professional registration');
+                        return false;
+                    }
                 }
 
                 return true;
