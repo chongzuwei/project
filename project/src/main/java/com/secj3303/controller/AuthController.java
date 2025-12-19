@@ -498,7 +498,17 @@ public class AuthController {
             }
         }
 
-        model.addAttribute("success", "Professional " + email + " has been rejected.");
+        // Delete professional record from database
+        try {
+            if (prof.getUserId() > 0) {
+                userDao.deleteById(prof.getUserId());
+            }
+        } catch (Exception e) {
+            System.out.println("Error deleting professional from database: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        model.addAttribute("success", "Professional " + email + " has been rejected and removed.");
         return "redirect:/auth/verifyProfessionals";
     }
 }

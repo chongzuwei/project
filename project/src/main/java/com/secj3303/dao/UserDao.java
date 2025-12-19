@@ -54,4 +54,15 @@ public class UserDao {
         Query<User> query = session.createQuery("FROM User u ORDER BY u.createdAt DESC", User.class);
         return query.getResultList();
     }
+
+    /**
+     * Delete user by ID (cascades to subclass tables like professionals, students, admins)
+     */
+    public void deleteById(int userId) {
+        Session session = sessionFactory.getCurrentSession();
+        User user = session.get(User.class, userId);
+        if (user != null) {
+            session.delete(user);
+        }
+    }
 }
