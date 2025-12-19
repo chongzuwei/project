@@ -10,12 +10,20 @@ import javax.persistence.*;
 @Table(name = "professionals")
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Professional extends User {
+    @Column(name = "professional_id")
     private String professionalId;
+    
     private String department;
     private String qualification;
     private String specialization;
+    
+    @Column(name = "verification_document")
     private String verificationDocument;  // Path to uploaded verification document
+    
+    @Column(name = "verification_status")
     private String verificationStatus;    // PENDING, APPROVED, REJECTED
+    
+    @Column(name = "submitted_at")
     private String submittedAt;           // Timestamp when document was submitted
 
     public Professional() {

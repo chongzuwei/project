@@ -10,7 +10,9 @@ import javax.persistence.*;
 @Table(name = "admins")
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Admin extends User {
+    @Column(name = "admin_id")
     private String adminId;
+    
     private String department;
     private String permissions;
 

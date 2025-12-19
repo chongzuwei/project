@@ -168,15 +168,40 @@
                 </select>
             </div>
 
-            <div id="verificationSection" style="display:none;">
-                <label class="file-input-label">📄 Verification Document (Required for Professional):</label>
-                <input type="file" 
-                       name="verificationDocument" 
-                       id="verificationFile"
-                       accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                       class="input-field">
-                <small style="color: #666;">Accepted formats: PDF, DOC, DOCX, JPG, PNG (Max 50MB)</small>
-            </div>
+                 <div id="verificationSection" style="display:none;">
+                  <label class="file-input-label">📄 Verification Document (Required for Professional):</label>
+                  <input type="file" 
+                      name="verificationDocument" 
+                      id="verificationFile"
+                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                      class="input-field">
+                  <small style="color: #666;">Accepted formats: PDF, DOC, DOCX, JPG, PNG (Max 50MB)</small>
+
+                  <label class="file-input-label" style="margin-top:12px;">Professional Information:</label>
+                  <input type="text" 
+                      name="professionalId" 
+                      id="professionalId"
+                      placeholder="Professional ID (e.g., P12345)"
+                      class="input-field">
+
+                  <input type="text" 
+                      name="department" 
+                      id="department"
+                      placeholder="Department (e.g., Counseling Center)"
+                      class="input-field">
+
+                  <input type="text" 
+                      name="qualification" 
+                      id="qualification"
+                      placeholder="Qualification (e.g., Licensed Counselor)"
+                      class="input-field">
+
+                  <input type="text" 
+                      name="specialization" 
+                      id="specialization"
+                      placeholder="Specialization (e.g., Anxiety, CBT)"
+                      class="input-field">
+                 </div>
 
             <button type="submit" class="btn" onclick="return validateForm()">Sign up</button>
 
@@ -224,8 +249,17 @@
 
                 if (role === 'PROFESSIONAL') {
                     var verificationFile = document.querySelector('input[name="verificationDocument"]').files;
+                    var professionalId = document.querySelector('input[name="professionalId"]').value.trim();
+                    var department = document.querySelector('input[name="department"]').value.trim();
+                    var qualification = document.querySelector('input[name="qualification"]').value.trim();
+                    var specialization = document.querySelector('input[name="specialization"]').value.trim();
+
                     if (verificationFile.length === 0) {
                         alert('Please upload a verification document for professional registration');
+                        return false;
+                    }
+                    if (!professionalId || !department || !qualification || !specialization) {
+                        alert('Please fill in Professional ID, Department, Qualification and Specialization');
                         return false;
                     }
                 }

@@ -57,6 +57,10 @@ public class AuthController {
             @RequestParam(required = false) String lastName,
             @RequestParam(required = false) String role,
             @RequestParam(required = false) String confirmPassword,
+            @RequestParam(required = false) String professionalId,
+            @RequestParam(required = false) String department,
+            @RequestParam(required = false) String qualification,
+            @RequestParam(required = false) String specialization,
             @RequestParam(required = false) String studentId,
             @RequestParam(required = false) String major,
             @RequestParam(required = false) String academicYear,
@@ -114,23 +118,36 @@ public class AuthController {
                         model.addAttribute("error", "Verification document is required for professional registration");
                         return "register";
                     }
-                    
+
+                    // Validate professional fields
+                    if (professionalId == null || professionalId.trim().isEmpty() ||
+                        department == null || department.trim().isEmpty() ||
+                        qualification == null || qualification.trim().isEmpty() ||
+                        specialization == null || specialization.trim().isEmpty()) {
+                        model.addAttribute("error", "Professional ID, Department, Qualification and Specialization are required");
+                        return "register";
+                    }
+
                     Professional prof = new Professional(email, password, firstName, lastName);
-                    
+
                     // Save verification document
                     String docPath = saveVerificationDocument(verificationDocument, email);
                     if (docPath == null) {
                         model.addAttribute("error", "Failed to save verification document. Please try again.");
                         return "register";
                     }
-                    
+
+                    prof.setProfessionalId(professionalId.trim());
+                    prof.setDepartment(department.trim());
+                    prof.setQualification(qualification.trim());
+                    prof.setSpecialization(specialization.trim());
                     prof.setVerificationDocument(docPath);
                     prof.setVerificationStatus("PENDING");
                     prof.setSubmittedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-                    
+
                     // Store in pending professionals for admin review
                     pendingProfessionals.put(normalizeEmail(email), prof);
-                    
+
                     user = prof;
                     break;
                 default:
@@ -317,7 +334,7 @@ public class AuthController {
             case PROFESSIONAL:
                 return "redirect:/profileprof";
             case ADMIN:
-                return "redirect:/homeadmin";
+                return "redirect:/profileadmin";
             default:
                 return "redirect:/index";
         }

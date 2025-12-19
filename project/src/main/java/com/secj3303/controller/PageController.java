@@ -1,6 +1,7 @@
 package com.secj3303.controller;
 
 import com.secj3303.dao.ResourceDao;
+import com.secj3303.dao.UserDao;
 import com.secj3303.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,9 @@ public class PageController {
 
     @Autowired
     private ResourceDao resourceDao;
+
+    @Autowired
+    private UserDao userDao;
 
     @RequestMapping("/")
     public String index() {
@@ -100,6 +104,29 @@ public class PageController {
     @RequestMapping("/homeadmin")
     public String homeAdmin() {
         return "homeadmin";
+    }
+
+    @RequestMapping("/profileadmin")
+    public String profileAdmin(HttpSession session, Model model) {
+        // Basic admin stats
+        try {
+            List<Resource> allResources = resourceDao.findAll();
+            long resourceCount = allResources != null ? allResources.size() : 0L;
+
+            long userCount = 0L;
+            try {
+                userCount = userDao.findAll().size();
+            } catch (Exception ignore) {
+                // fallback: leave as 0
+            }
+
+            model.addAttribute("resourceCount", resourceCount);
+            model.addAttribute("userCount", userCount);
+        } catch (Exception e) {
+            model.addAttribute("resourceCount", 0L);
+            model.addAttribute("userCount", 0L);
+        }
+        return "profileadmin";
     }
 
     @RequestMapping("/dashboardpage")

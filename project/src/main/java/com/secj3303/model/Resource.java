@@ -10,14 +10,26 @@ import javax.persistence.*;
 public class Resource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "resource_id")
     private int resourceId;
+    
     private String title;
     private String description;
     private String category;
+    
+    @Column(name = "file_url")
     private String fileUrl;
+    
+    @Column(name = "uploaded_by")
     private String uploadedBy; // Professional email
+    
+    @Column(name = "uploaded_by_name")
     private String uploadedByName; // Professional full name
+    
+    @Column(name = "created_at")
     private String createdAt;
+    
+    @Column(name = "updated_at")
     private String updatedAt;
 
     // Constructors
